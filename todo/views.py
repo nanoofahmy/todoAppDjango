@@ -12,3 +12,7 @@ def todo_details_byId (request , id):
     print(todo)
     context ={'todo':todo}
     return render(request,template_name="../templates/todo_id.html",context=context)
+
+
+
+
