@@ -10,9 +10,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
         fields = ['username', 'email']
 
 class TodoSerializer(serializers.ModelSerializer):
-    users = CustomUserSerializer(read_only=True)
+    user = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = Todo
-        fields = ['users', 'id' , 'title']
+        fields = ['user', 'id' , 'title']
 
