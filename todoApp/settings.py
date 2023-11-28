@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'users',
     'todo',
     'rest_framework_simplejwt',
-
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -151,4 +151,10 @@ SIMPLE_JWT = {
     'AUTH_COOKIE_SECURE': False,
     'AUTH_COOKIE_HTTP_ONLY': True,
     'AUTH_COOKIE_SAMESITE': 'Lax',
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
 }
