@@ -16,12 +16,15 @@ class TodoViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
     def filter_queryset(self, queryset):
-        queryset = queryset.filter(user=self.request.user)
         return super().filter_queryset(queryset)
+        # queryset = queryset.filter(user=self.request.user)
+        # return super().filter_queryset(queryset)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -51,5 +54,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user, todos=todo)
 
     def filter_queryset(self, queryset):
-        queryset = queryset.filter(user=self.request.user)
         return super().filter_queryset(queryset)
+        # queryset = queryset.filter(user=self.request.user)
+        # return super().filter_queryset(queryset)
