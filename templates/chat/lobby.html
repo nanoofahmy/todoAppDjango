@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1″>
+    <title>Title</title>
+</head>
+<body>
+    <h1> let's chat !!</h1>
+<script>
+
+    const socket = new WebSocket('ws://127.0.0.1:8000/ws/')
+    {#console.log(socket)#}
+        socket.onopen = () => {
+        socket.send(JSON.stringify({"message":"hello world"}))
+        }
+        socket.onmessage = (message) => {
+            const data = JSON.parse(message.data)
+            console.log(data)
+        }
+
+
+
+</script>
+</body>
+</html>

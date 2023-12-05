@@ -19,12 +19,14 @@ from rest_framework_simplejwt import views as jwt_views
 
 from todo import routing
 from todo.routing import websocket_urlpatterns
+from todo.views import lobby
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',lobby),
     path('', include('todo.urls')),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('ws/', include(websocket_urlpatterns)),
+    # path('ws/', include(websocket_urlpatterns)),
 
 ]

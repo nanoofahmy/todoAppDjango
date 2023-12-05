@@ -1,3 +1,8 @@
+import json
+
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
@@ -6,6 +11,13 @@ from .permissions import IsOwnerOnly
 from .serializers import TodoSerializer, CommentSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+
+# channel_layer = get_channel_layer()
+
+
+def lobby(request):
+    print(request.path)
+    return render(request, 'chat/lobby.html')
 
 
 # Create your views here.
@@ -16,10 +28,26 @@ class TodoViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
-
-
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        todo_instance = serializer.save(user=self.request.user)
+        # Create a message with the todo data
+        data = {
+            # 'type': 'todo.created',
+            'id': todo_instance.id,
+            'title': todo_instance.title,
+            'details': todo_instance.details,
+            # Add other fields as needed
+        }
+        # print(data)
+        #
+        # # Send the message to the 'todo' channel
+        # async_to_sync(channel_layer.group_send)(
+        #     'todo_group',  # Channel name
+        #     {
+        #         'type': 'send_notification',
+        #         'value': json.dumps(data)
+        #     }
+        # )
 
     def filter_queryset(self, queryset):
         return super().filter_queryset(queryset)
