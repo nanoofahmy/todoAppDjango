@@ -7,12 +7,13 @@ from todo.models import Todo
 
 
 class ChatConsumer(WebsocketConsumer):
+
     def connect(self):
-        self.room_name = 'todo_room'
-        self.room_group_name = 'todo_group'
-        self.channel = 'todo_channel'
+        # self.room_name = 'todo_room'
+        self.group_name = 'todo_group'
+        # self.channel = 'todo_channel'
         async_to_sync(self.channel_layer.group_add)(
-            'todo_group', self.channel
+             self.group_name, self.channel_name
         )
         self.accept()
         # todo = Todo.objects.all()
@@ -27,7 +28,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def disconnect(self, close_code):
         self.channel_layer.group_discard(
-            self.room_group_name, self.channel_layer
+            self.group_name, self.channel_name
         )
 
     def receive(self, text_data):
@@ -37,14 +38,14 @@ class ChatConsumer(WebsocketConsumer):
             'result': text_data_json
         }))
         async_to_sync(self.channel_layer.group_send)(
-            'todo_group',  # group name
+            self.group_name,  # group name
             {
                 'type': 'send_notification',
-                'value': "dataaaaaaaaaaaaa"
+                # 'value': data
             }
         )
 
-    def send_notification(self, event, type ='send_notification'):
+    def send_notification(self, event):
         print('send notification')
         print(event)
         self.send(text_data=json.dumps({
