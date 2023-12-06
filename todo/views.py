@@ -52,7 +52,7 @@ class TodoViewSet(viewsets.ModelViewSet):
     #             'value': data
     #         }
     #     )
-# /////////////
+    # /////////////
     # def perform_create(self, serializer):
     #     todo_instance = serializer.save(user=self.request.user)
     #     # Create a message with the todo data
@@ -140,3 +140,16 @@ class CommentViewSet(viewsets.ModelViewSet):
         return super().filter_queryset(queryset)
         # queryset = queryset.filter(user=self.request.user)
         # return super().filter_queryset(queryset)
+
+
+class UserTodoViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TodoSerializer
+    authentication_classes = [JWTAuthentication]
+
+    def get_queryset(self):
+        # Filter todos based on the current user
+        return Todo.objects.filter(user=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)

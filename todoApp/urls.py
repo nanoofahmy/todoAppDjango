@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from rest_framework_simplejwt import views as jwt_views
 
 from todo import routing
@@ -27,6 +28,12 @@ urlpatterns = [
     path('', include('todo.urls')),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+# Swagger UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    # Redoc UI:
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+]
     # path('ws/', include(websocket_urlpatterns)),
 
-]
+

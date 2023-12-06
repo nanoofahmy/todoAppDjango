@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'users',
     'todo',
     'rest_framework_simplejwt',
-
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +63,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
@@ -159,3 +160,9 @@ SIMPLE_JWT = {
     'AUTH_COOKIE_SAMESITE': 'Lax',
 }
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Todo API',
+    'DESCRIPTION': 'This is a todo official API documentation.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False
+}
